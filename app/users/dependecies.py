@@ -1,11 +1,13 @@
 from datetime import datetime
 
-from fastapi import HTTPException, Depends, status, Request
+from fastapi import Depends, Request
 from jose import jwt, JWTError
 from sqlalchemy import Row
 
 from app.users.service import UserService
 from app.settings import settings
+from exceptions import TokenDoesNotExistException, TokenIncorrectException, ExpiredTokenException, \
+    UserDoesNotExistException
 
 
 def get_token(request: Request) -> str:
@@ -13,7 +15,7 @@ def get_token(request: Request) -> str:
 
     token = request.cookies.get('access_token')
     if not token:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+        raise TokenDoesNotExistException()
     return token
 
 
@@ -25,18 +27,18 @@ async def get_current_user(token: str = Depends(get_token)) -> Row:
             token, settings.SECRET_KEY, settings.ALGORITHM
         )
     except JWTError:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+        raise TokenIncorrectException()
 
     expire = payload.get('exp')
     if (not expire) or (int(expire) < datetime.utcnow().timestamp()):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+        raise ExpiredTokenException()
 
     user_id = payload.get('sub')
     if not user_id:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+        raise TokenIncorrectException()
 
     user = await UserService.get_by_id(id=int(user_id))
     if not user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+        raise UserDoesNotExistException()
 
     return user
