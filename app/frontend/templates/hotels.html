@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+{% for hotel in hotels %}
+<br>
+<div class="card text-center">
+    <div class="card-header">
+        {{ hotel.location }}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Название отеля: {{ hotel.name }}</h5>
+        <p class="card-text">
+            {% for service in hotel.services %}
+                <span>{{ service }}  •</span>
+            {% endfor %}
+        </p>
+        <p>
+            <img src="{{ url_for('static', path='images/' + hotel.image_id|string + '.jpeg') }}"
+                 alt="Фото отеля" width="300">
+        </p>
+        <p>{{ hotel.stars }}  ⭐</p>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

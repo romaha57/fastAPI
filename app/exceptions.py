@@ -33,4 +33,14 @@ class LoginException(InitExceptionMixin, HTTPException):
     detail = 'ошибка входа'
 
 
+class NoAvailableRoomsException(InitExceptionMixin, HTTPException):
+    status = status.HTTP_409_CONFLICT
+    detail = 'нет свободных комнат'
+
+
+class HotelDoesNotExist(InitExceptionMixin, HTTPException):
+    status = status.HTTP_400_BAD_REQUEST
+    detail = 'отель не найден'
+
+
 

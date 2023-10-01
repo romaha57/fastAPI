@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<form action="{{ url_for('get_hotels', location='алтай') }}" method="get">
+    <input type="text" placeholder="Введите локацию">
+    <input type="datetime-local" placeholder="Начало">
+    <input type="datetime-local" placeholder="Конец">
+    <button type="submit">Найти</button>
+</form>
+{% endblock %}

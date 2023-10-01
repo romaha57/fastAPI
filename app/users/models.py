@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 
 from app.database import Base
 
@@ -10,3 +11,8 @@ class User(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String, nullable=False)
     password = Column(String, nullable=False)
+
+    booking = relationship('Booking', back_populates='user')
+
+    def __str__(self):
+        return f'{self.email}'

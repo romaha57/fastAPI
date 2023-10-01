@@ -1,10 +1,10 @@
-from fastapi import APIRouter, HTTPException, status, Response, Depends
+from fastapi import APIRouter, HTTPException, status, Response, Depends, Request
 
-from users.schemas import RegisterUserSchema, LoginUserSchema
-from users.service import UserService
-from users.auth import hash_password, verify_password, create_access_token
-from users.dependecies import get_current_user
-from users.models import User
+from app.users.schemas import RegisterUserSchema, LoginUserSchema
+from app.users.service import UserService
+from app.users.auth import hash_password, verify_password, create_access_token
+from app.users.dependecies import get_current_user
+from app.users.models import User
 from app.exceptions import UserAlreadyExistException, LoginException
 
 router = APIRouter(

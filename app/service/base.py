@@ -1,8 +1,8 @@
-from sqlalchemy import select, insert
+from sqlalchemy import select, insert, delete
 from sqlalchemy.engine import Row
 from sqlalchemy.ext.asyncio import AsyncMappingResult
 
-from database import async_session
+from app.database import async_session
 
 
 class BaseService:
@@ -46,5 +46,14 @@ class BaseService:
 
         async with async_session() as session:
             query = insert(cls.model).values(**data)
+            await session.execute(query)
+            await session.commit()
+
+    @classmethod
+    async def delete(cls, id: int):
+        """Удаление объекта по его id"""
+
+        async with async_session() as session:
+            query = delete(cls.model).filter_by(id=id)
             await session.execute(query)
             await session.commit()
