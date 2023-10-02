@@ -5,7 +5,7 @@ from app.users.service import UserService
 from app.users.auth import hash_password, verify_password, create_access_token
 from app.users.dependecies import get_current_user
 from app.users.models import User
-from app.exceptions import UserAlreadyExistException, LoginException
+from app.exceptions import UserAlreadyExistException, LoginException, UserPasswordIsEmpty
 
 router = APIRouter(
     prefix='/users',
@@ -20,11 +20,14 @@ async def register_user(
     if await UserService.get_object_or_none(email=user_data.email):
         raise UserAlreadyExistException()
 
+    if not user_data.password or not user_data.email:
+        raise UserPasswordIsEmpty()
     hashed_password = hash_password(user_data.password)
     await UserService.create_object(
         email=user_data.email,
         password=hashed_password
     )
+    return {'msg': 'user was created'}
 
 
 @router.post('/login')

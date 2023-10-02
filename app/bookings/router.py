@@ -46,7 +46,7 @@ async def create_booking(
     del booking_data['_sa_instance_state']
 
     # отправка письма с подтверждением брони
-    send_email.delay(booking_data, user.email)
+    # send_email.delay(booking_data, user.email)
 
     return new_booking
 

@@ -12,6 +12,10 @@ from app.hotels.models import Hotel
 from app.rooms.models import Room
 from app.users.models import User
 from app.bookings.models import Booking
+from app.main import app as fastapi_app
+
+from fastapi.testclient import TestClient
+from httpx import AsyncClient
 
 
 def open_mock_json(name: str) -> dict:
@@ -62,6 +66,35 @@ def event_loop(request):
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
+
+
+@pytest.fixture(scope='function')
+async def ac():
+    """Создание тестового клиента для запросов к endpoints (ac=async_client)"""
+
+    async with AsyncClient(app=fastapi_app, base_url='http://test') as ac:
+        yield ac
+
+
+@pytest.fixture(scope='function')
+async def session():
+    """Создание сессии для обращение к БД при тестировании"""
+
+    async with async_session() as session:
+        yield session
+
+
+@pytest.fixture(scope='function')
+async def auth_user():
+    """Создание аутентифицированного пользователя для работы с endpoints"""
+
+    async with AsyncClient(app=fastapi_app, base_url='http://test') as au:
+        response = await au.post('users/login', json={
+            'email': 'test@test.com',
+            'password': 'test'
+        })
+        assert response.cookies['access_token']
+        yield au
 
 
 
