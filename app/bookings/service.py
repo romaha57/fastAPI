@@ -1,6 +1,6 @@
 from datetime import date
 
-from sqlalchemy import select, join, and_, or_, func, insert
+from sqlalchemy import select, join, and_, or_, func, insert, update
 
 from app.service.base import BaseService
 from app.database import async_session, engine
@@ -16,13 +16,12 @@ class BookingService(BaseService):
     model = Booking
 
     @classmethod
-    async def create(cls,
-                     room_id: int,
-                     date_from: date,
-                     date_to: date,
-                     user_id: int
-                     ):
-        """Создание брони с учетом свободных номеров на эти даты"""
+    async def _check_room_left(cls,
+                               room_id: int,
+                               date_from: date,
+                               date_to: date
+                               ) -> int:
+        """Проверка на количество забронированных номеров по его id и по датам """
 
         async with async_session() as session:
             # получаем количество забронированных на эту дату номеров
@@ -56,8 +55,25 @@ class BookingService(BaseService):
             rooms_left = await session.execute(rooms_left)
             rooms_left: int = rooms_left.scalar()
 
-            # если есть свободные номера, то создаем бронь
-            if rooms_left > 0:
+            return rooms_left
+
+    @classmethod
+    async def create(cls,
+                     room_id: int,
+                     date_from: date,
+                     date_to: date,
+                     user_id: int
+                     ):
+        """Создание брони с учетом свободных номеров на эти даты"""
+
+        rooms_left = await cls._check_room_left(
+            room_id=room_id,
+            date_from=date_from,
+            date_to=date_to
+        )
+        # если есть свободные номера, то создаем бронь
+        if rooms_left > 0:
+            async with async_session() as session:
                 get_price = select(Room.price).filter_by(id=room_id)
                 price = await session.execute(get_price)
                 price: int = price.scalar()
@@ -72,6 +88,33 @@ class BookingService(BaseService):
                 await session.commit()
 
                 return new_booking.scalar()
+
+    @classmethod
+    async def update(cls,
+                     rooms_id: int,
+                     booking_id: int,
+                     date_from: date,
+                     date_to: date
+                     ):
+        """Изменение данных по брони"""
+
+        rooms_left = await cls._check_room_left(
+            room_id=rooms_id,
+            date_from=date_from,
+            date_to=date_to
+        )
+        if rooms_left > 0:
+            async with async_session() as session:
+
+                update_booking = update(Booking).filter_by(id=booking_id).values(
+                    rooms_id=rooms_id,
+                    date_from=date_from,
+                    date_to=date_to,
+                )
+                await session.execute(update_booking)
+                await session.commit()
+
+        return rooms_left
 
     @classmethod
     async def get_all(cls, user_id: int):

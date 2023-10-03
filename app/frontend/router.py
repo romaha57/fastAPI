@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 from starlette.responses import HTMLResponse
 
-from app.hotels.router import get_hotels
+from app.hotels.router import get_hotels_by_location
 from app.hotels.schemas import HotelSchema
 from app.frontend.naming import TITLE_INDEX_PAGE, TITLE_HOTELS_PAGE
 from app.users.router import login_user
@@ -31,7 +31,7 @@ async def index(
 @router.get('/hotels', response_class=HTMLResponse)
 async def hotels_html(
         request: Request,
-        hotels: list[HotelSchema] = Depends(get_hotels)
+        hotels: list[HotelSchema] = Depends(get_hotels_by_location)
 ):
     return templates.TemplateResponse(
         name='hotels.html',

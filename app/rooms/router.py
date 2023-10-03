@@ -2,6 +2,7 @@ from datetime import date
 
 from fastapi import APIRouter
 
+from app.exceptions import InvalidDateException
 from app.rooms.models import Room
 from app.rooms.schemas import RoomSchema
 from app.rooms.service import RoomService
@@ -19,6 +20,9 @@ async def get_rooms(
         date_from: date,
         date_to: date
 ):
+    if date_to <= date_from:
+        raise InvalidDateException()
+
     return await RoomService.get_all(
         hotel_id=hotel_id,
         date_from=date_from,

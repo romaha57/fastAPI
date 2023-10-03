@@ -14,7 +14,7 @@ def get_email_template(
     email = EmailMessage()
 
     # для теста отправка происходит самому себе
-    email_to = settings.SMTP_USER
+    # email_to = settings.SMTP_USER
 
     email['Subject'] = 'Подтвердите бронирование'
     email['From'] = settings.SMTP_USER

@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class RoomSchema(BaseModel):
@@ -7,7 +8,7 @@ class RoomSchema(BaseModel):
     id: int
     hotel_id: int
     name: str
-    description: str
+    description: Optional[str] = None
     price: int
     services: list[str]
     quantity: int

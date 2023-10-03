@@ -46,3 +46,14 @@ class HotelDoesNotExist(InitExceptionMixin, HTTPException):
 class UserPasswordIsEmpty(InitExceptionMixin, HTTPException):
     status_code = status.HTTP_409_CONFLICT
     detail = 'Пароль не может быть пустым полем'
+
+
+class InvalidDateException(InitExceptionMixin, HTTPException):
+    status_code = status.HTTP_409_CONFLICT
+    detail = 'Дата выселения не может быть раньше даты заселения.' \
+             'Или указана дата заселения < текущей'
+
+
+class InvalidUpdateBookingException(InitExceptionMixin, HTTPException):
+    status_code = status.HTTP_409_CONFLICT
+    detail = 'Ошибка при изменении брони(проверьте исходные данные)'

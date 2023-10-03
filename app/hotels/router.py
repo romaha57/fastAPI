@@ -1,11 +1,12 @@
 import asyncio
-from datetime import date
+import datetime
+from datetime import date, datetime
 
 from fastapi import APIRouter
 
 from fastapi_cache.decorator import cache
 
-from app.exceptions import HotelDoesNotExist
+from app.exceptions import HotelDoesNotExist, InvalidDateException
 from app.hotels.service import HotelService
 from app.hotels.schemas import HotelSchema
 
@@ -17,15 +18,35 @@ router = APIRouter(
 
 
 @router.get('/{location}', response_model=list[HotelSchema])
-@cache(expire=30)
-async def get_hotels(
+# @cache(expire=30)
+async def get_hotels_by_location(
         location: str,
         date_from: date,
         date_to: date
 ):
+    if date_to <= date_from or date_to < datetime.utcnow().date():
+        raise InvalidDateException()
+
     await asyncio.sleep(5)
     return await HotelService.find_all(
         location=location,
+        date_from=date_from,
+        date_to=date_to
+    )
+
+
+@router.get('/search/{hotel_name}', response_model=list[HotelSchema])
+# @cache(expire=30)
+async def get_hotels_by_hotel_name(
+        hotel_name: str,
+        date_from: date,
+        date_to: date
+):
+    if date_to <= date_from or date_from < datetime.utcnow().date():
+        raise InvalidDateException()
+
+    return await HotelService.find_all(
+        hotel_name=hotel_name,
         date_from=date_from,
         date_to=date_to
     )

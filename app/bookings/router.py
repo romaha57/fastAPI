@@ -1,11 +1,9 @@
-from datetime import date
-
+from datetime import datetime, date
 from fastapi import APIRouter, Depends
-from pydantic import parse_obj_as
 
 from app.bookings.service import BookingService
 from app.bookings.schemas import CreateBookingSchema, BookingsByUserSchema, BaseBookingSchema
-from app.exceptions import NoAvailableRoomsException
+from app.exceptions import NoAvailableRoomsException, InvalidUpdateBookingException, InvalidDateException
 from app.tasks.tasks import send_email
 
 from app.users.models import User
@@ -32,6 +30,9 @@ async def create_booking(
         date_to: date,
         user: User = Depends(get_current_user)
 ):
+    if date_to <= date_from or date_from < datetime.utcnow().date():
+        raise InvalidDateException()
+
     new_booking = await BookingService.create(
         room_id=room_id,
         date_from=date_from,
@@ -49,6 +50,30 @@ async def create_booking(
     # send_email.delay(booking_data, user.email)
 
     return new_booking
+
+
+@router.patch('/{booking_id}')
+async def update_booking(
+        booking_id: int,
+        rooms_id: int,
+        date_from: date,
+        date_to: date,
+        user: User = Depends(get_current_user)
+
+):
+    if date_to <= date_from or date_from < datetime.utcnow().date():
+        raise InvalidDateException()
+
+    rooms_left = await BookingService.update(
+        booking_id=booking_id,
+        rooms_id=rooms_id,
+        date_from=date_from,
+        date_to=date_to
+    )
+    if not rooms_left:
+        raise NoAvailableRoomsException()
+
+    return {'msg': 'booking was updated'}
 
 
 @router.delete('/{booking_id}')

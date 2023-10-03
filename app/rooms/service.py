@@ -43,6 +43,8 @@ class RoomService(BaseService):
                 (Room.quantity - func.coalesce(booked_rooms.c.rooms_booked, 0)).label('rooms_left')
             ).join(
                 booked_rooms, booked_rooms.c.rooms_id == Room.id, isouter=True
+            ).where(
+                Room.hotel_id == hotel_id
             )
 
             rooms = await session.execute(get_rooms)

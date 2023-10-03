@@ -15,10 +15,17 @@ class HotelService(BaseService):
 
     @classmethod
     async def find_all(cls,
-                       location: str,
                        date_from: date,
-                       date_to: date
+                       date_to: date,
+                       location: str = None,
+                       hotel_name: str = None
                        ):
+
+        # создаем запрос на поиск по названию или локации
+        if location:
+            query = Hotel.location.like(f"%{location.capitalize()}%")
+        else:
+            query = Hotel.name.like(f"%{hotel_name.capitalize()}%")
 
         # таблица с room_id и количество броней этого номера на эти даты
         booked_rooms = (
@@ -61,10 +68,11 @@ class HotelService(BaseService):
             .where(
                 and_(
                     booked_hotels.c.rooms_left > 0,
-                    Hotel.location.like(f"%{location.capitalize()}%"),
+                    query,
                 )
             )
         ).order_by('id')
+
         async with async_session() as session:
             hotels_with_rooms = await session.execute(get_hotels_with_rooms)
 
