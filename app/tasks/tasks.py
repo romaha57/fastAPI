@@ -1,12 +1,11 @@
-from pydantic import EmailStr
-
-from app.tasks.settings_celery import celery
 import smtplib
-from app.settings import settings
-
-from PIL import Image
 from pathlib import Path
 
+from PIL import Image
+from pydantic import EmailStr
+
+from app.settings import settings
+from app.tasks.settings_celery import celery
 from app.utils.email_template import get_email_template
 
 

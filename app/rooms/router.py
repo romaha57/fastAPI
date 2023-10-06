@@ -3,10 +3,8 @@ from datetime import date
 from fastapi import APIRouter
 
 from app.exceptions import InvalidDateException
-from app.rooms.models import Room
 from app.rooms.schemas import RoomSchema
 from app.rooms.service import RoomService
-
 
 router = APIRouter(
     prefix='/rooms',

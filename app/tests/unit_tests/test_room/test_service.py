@@ -1,5 +1,6 @@
-import pytest
 from datetime import datetime
+
+import pytest
 
 from app.rooms.service import RoomService
 
@@ -26,5 +27,3 @@ async def test_get_all(hotel_id, date_from, date_to, count_rooms):
     if hotel_id != 1000:
         assert 'total_cost' in rooms[0]
         assert 'rooms_left' in rooms[0]
-
-

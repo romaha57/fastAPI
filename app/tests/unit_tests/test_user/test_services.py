@@ -55,7 +55,6 @@ async def test_get_object_or_none(email, is_exist, ac: AsyncClient):
         assert user is None
 
 
-
 @pytest.mark.parametrize(
     'email,password',
     [('one@mail.ru', 'password'),

@@ -2,7 +2,6 @@ from celery import Celery
 
 from app.settings import settings
 
-
 celery = Celery(
     main='tasks',
     broker=settings.REDIS_CONNECT,

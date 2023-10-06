@@ -7,12 +7,13 @@ class Settings(BaseSettings):
     """Класс настроек для всего проекта"""
 
     MODE: Literal['DEV', 'TEST', 'PROD']
+    LOG_LVL: Literal['INFO', 'DEBUG']
 
-    DB_HOST: str
-    DB_PORT: int
-    DB_NAME: str
-    DB_USER: str
-    DB_PASSWORD: int
+    POSTGRES_HOST: str
+    POSTGRES_PORT: int
+    POSTGRES_NAME: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: int
     DATABASE_URL: str
 
     TEST_DB_HOST: str
@@ -31,6 +32,8 @@ class Settings(BaseSettings):
     SMTP_PORT: int
     SMTP_USER: str
     SMTP_PASSWORD: str
+
+    SENTRY_KEY: str
 
     class Config:
         env_file = '.env'

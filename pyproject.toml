@@ -1,0 +1,17 @@
+# для пробразование слодных sql запросов и прочее
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+# сортирует импорты по алфавиту и по блокам
+[tool.isort]
+profile = "black"
+
+# удаляем неиспользуемые импорты
+[tool.autoflake]
+check_diff = true
+imports = ['app', 'fastapi', 'sqlalchemy']
+
+# проверяет соотвествия аннотацию типов
+[tool.pyright]
+include = ['app']

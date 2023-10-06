@@ -1,8 +1,8 @@
 import pytest
 from httpx import AsyncClient
 
-
 # Если ошибка AssertionError: You must call init first!, то надо в router закомментить @сache()
+
 
 @pytest.mark.parametrize(
     'location,date_from,date_to,count_hotels,status_code',

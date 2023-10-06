@@ -1,11 +1,10 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 from starlette.responses import HTMLResponse
 
+from app.frontend.naming import TITLE_HOTELS_PAGE, TITLE_INDEX_PAGE
 from app.hotels.router import get_hotels_by_location
 from app.hotels.schemas import HotelSchema
-from app.frontend.naming import TITLE_INDEX_PAGE, TITLE_HOTELS_PAGE
-from app.users.router import login_user
 
 router = APIRouter(
     prefix='/site',

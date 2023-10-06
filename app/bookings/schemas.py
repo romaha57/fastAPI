@@ -18,6 +18,7 @@ class BaseBookingSchema(BaseModel):
 
 class CreateBookingSchema(BaseBookingSchema):
     """Схема для отображения бронирований при создании"""
+
     pass
 
 

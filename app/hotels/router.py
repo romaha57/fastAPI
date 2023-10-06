@@ -3,13 +3,11 @@ import datetime
 from datetime import date, datetime
 
 from fastapi import APIRouter
-
 from fastapi_cache.decorator import cache
 
 from app.exceptions import HotelDoesNotExist, InvalidDateException
-from app.hotels.service import HotelService
 from app.hotels.schemas import HotelSchema
-
+from app.hotels.service import HotelService
 
 router = APIRouter(
     prefix='/hotels',
@@ -18,7 +16,7 @@ router = APIRouter(
 
 
 @router.get('/{location}', response_model=list[HotelSchema])
-# @cache(expire=30)
+@cache(expire=30)
 async def get_hotels_by_location(
         location: str,
         date_from: date,
@@ -27,7 +25,6 @@ async def get_hotels_by_location(
     if date_to <= date_from or date_to < datetime.utcnow().date():
         raise InvalidDateException()
 
-    await asyncio.sleep(5)
     return await HotelService.find_all(
         location=location,
         date_from=date_from,
@@ -36,7 +33,7 @@ async def get_hotels_by_location(
 
 
 @router.get('/search/{hotel_name}', response_model=list[HotelSchema])
-# @cache(expire=30)
+@cache(expire=30)
 async def get_hotels_by_hotel_name(
         hotel_name: str,
         date_from: date,

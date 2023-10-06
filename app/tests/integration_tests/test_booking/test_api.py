@@ -1,5 +1,3 @@
-import datetime
-
 import pytest
 from httpx import AsyncClient
 

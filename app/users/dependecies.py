@@ -1,13 +1,17 @@
 from datetime import datetime
 
 from fastapi import Depends, Request
-from jose import jwt, JWTError
+from jose import JWTError, jwt
 from sqlalchemy import Row
 
-from app.users.service import UserService
+from app.exceptions import (
+    ExpiredTokenException,
+    TokenDoesNotExistException,
+    TokenIncorrectException,
+    UserDoesNotExistException,
+)
 from app.settings import settings
-from app.exceptions import TokenDoesNotExistException, TokenIncorrectException, ExpiredTokenException, \
-    UserDoesNotExistException
+from app.users.service import UserService
 
 
 def get_token(request: Request) -> str:

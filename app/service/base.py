@@ -1,4 +1,4 @@
-from sqlalchemy import select, insert, delete, update
+from sqlalchemy import delete, insert, select
 from sqlalchemy.engine import Row
 from sqlalchemy.ext.asyncio import AsyncMappingResult
 

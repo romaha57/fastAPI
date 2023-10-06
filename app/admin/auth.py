@@ -2,7 +2,7 @@ from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
 
 from app.settings import settings
-from app.users.auth import verify_password, create_access_token
+from app.users.auth import create_access_token, verify_password
 from app.users.dependecies import get_current_user
 from app.users.service import UserService
 

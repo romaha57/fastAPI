@@ -1,13 +1,12 @@
 from datetime import date
 
-from sqlalchemy import select, join, and_, or_, func, insert, update
-
-from app.service.base import BaseService
-from app.database import async_session, engine
+from sqlalchemy import and_, func, insert, or_, select, update
 
 from app.bookings.models import Booking
-from app.rooms.models import Room
+from app.database import async_session
 from app.hotels.models import Hotel
+from app.rooms.models import Room
+from app.service.base import BaseService
 
 
 class BookingService(BaseService):
@@ -136,5 +135,4 @@ class BookingService(BaseService):
             )
 
             bookings = await session.execute(query)
-
             return bookings.mappings().all()

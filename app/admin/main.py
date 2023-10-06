@@ -1,10 +1,10 @@
 from sqladmin import ModelView
 from sqlalchemy import Select
 
-from app.users.models import User
-from app.hotels.models import Hotel
 from app.bookings.models import Booking
+from app.hotels.models import Hotel
 from app.rooms.models import Room
+from app.users.models import User
 
 
 class UserAdmin(ModelView, model=User):
@@ -71,8 +71,6 @@ class BookingAdmin(ModelView, model=Booking):
         """Поиск по названию номера в броне"""
 
         return stmt.filter(Booking.room.icontains(term))
-
-
 
 
 class RoomAdmin(ModelView, model=Room):

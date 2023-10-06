@@ -1,21 +1,18 @@
 import asyncio
 import json
+from datetime import datetime
 
 import pytest
-
-from datetime import datetime
+from httpx import AsyncClient
 from sqlalchemy import insert
 
-from app.database import engine, async_session, Base
-from app.settings import settings
-from app.hotels.models import Hotel
-from app.rooms.models import Room
-from app.users.models import User
 from app.bookings.models import Booking
+from app.database import Base, async_session, engine
+from app.hotels.models import Hotel
 from app.main import app as fastapi_app
-
-from fastapi.testclient import TestClient
-from httpx import AsyncClient
+from app.rooms.models import Room
+from app.settings import settings
+from app.users.models import User
 
 
 def open_mock_json(name: str) -> dict:
@@ -95,6 +92,3 @@ async def auth_user():
         })
         assert response.cookies['access_token']
         yield au
-
-
-

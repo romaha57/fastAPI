@@ -1,12 +1,11 @@
 from datetime import date
 
-from sqlalchemy import select, func, or_, and_
+from sqlalchemy import and_, func, or_, select
 
-from app.service.base import BaseService
-from app.rooms.models import Room
 from app.bookings.models import Booking
-
 from app.database import async_session
+from app.rooms.models import Room
+from app.service.base import BaseService
 
 
 class RoomService(BaseService):
@@ -50,5 +49,3 @@ class RoomService(BaseService):
             rooms = await session.execute(get_rooms)
 
             return rooms.mappings().all()
-
-

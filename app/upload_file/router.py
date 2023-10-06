@@ -4,7 +4,6 @@ from fastapi import APIRouter, UploadFile
 
 from app.tasks.tasks import save_resized_img
 
-
 router = APIRouter(
     prefix='/file',
     tags=['Загрузка файлов']

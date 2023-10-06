@@ -1,8 +1,13 @@
+import time
+
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Request
 
 from main import app, origins
+from app.logger import logger
 
 
+# middleware на защиту от CORS атак
 app.add_middleware(
     CORSMiddleware,
     allow_origin=origins,
