@@ -2,6 +2,7 @@ import time
 
 import uvicorn as uvicorn
 from fastapi_versioning import VersionedFastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.logger import logger
 from app.bookings.router import router as router_bookings
@@ -62,6 +63,14 @@ admin.add_view(RoomAdmin)
 
 # load static files
 app.mount('/static', StaticFiles(directory='app/static'), 'static')
+
+# collect metrics for prometheus
+
+instrumentator = Instrumentator(
+    should_group_status_codes=False,
+    excluded_handlers=[".*admin.*", "/metrics"],
+)
+Instrumentator().instrument(app).expose(app)
 
 
 @app.on_event('startup')

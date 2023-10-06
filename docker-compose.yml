@@ -3,8 +3,10 @@ version: "3.8"
 services:
   db:
     image: postgres:15
-    container_name: db
+    container_name: postgres_db
     restart: always
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
     expose:
       - 5432
     env_file:
@@ -13,11 +15,10 @@ services:
     image: redis:7
     container_name: booking_redis
 
-  booking:
-    image: booking_app
+  bookings:
     build:
       context: .
-    container_name: booking_app
+    container_name: fastapi_bookings
     restart: unless-stopped
     env_file:
       - .env-prod
@@ -26,15 +27,14 @@ services:
       - redis
     command: sh -c "alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000"
     ports:
-      - 7777:8000
+      - 8000:8000
     links:
       - db:db
 
   celery:
-    image: booking_celery
     build:
       context: .
-    container_name: booking_celery
+    container_name: celery
     command: sh -c "celery --app=app.tasks.settings_celery:celery worker -l INFO"
     env_file:
       - .env-prod
@@ -42,10 +42,9 @@ services:
       - redis
 
   flower:
-    image: booking_flower
     build:
       context: .
-    container_name: booking_flower
+    container_name: flower
     command: sh -c "celery --app=app.tasks.settings_celery:celery flower"
     env_file:
       - .env-prod
@@ -53,3 +52,26 @@ services:
       - redis
     ports:
       - 5555:5555
+  prometheus:
+    image: prom/prometheus:v2.43.0
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheusdata:/prometheus
+    restart: unless-stopped
+    ports:
+      - 9090:9090
+
+  grafana:
+      image: grafana/grafana:9.4.7
+      container_name: grafana
+      volumes:
+        - grafanadata:/var/lib/grafana
+      restart: unless-stopped
+      ports:
+        - 3000:3000
+
+volumes:
+  postgresdata:
+  grafanadata:
+  prometheusdata:
