@@ -1,0 +1,14 @@
+name: "Run Test"
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get source code
+        uses: actions/checkout@v4
+      - name: upgrade pip
+        run: python3 -m pip install --upgrade pip setuptools wheel
+      - name: install requirements
+        run: python3 -m pip install -r requirements
+      - name: run test
+        run: pytest -v -s
