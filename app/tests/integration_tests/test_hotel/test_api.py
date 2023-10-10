@@ -16,6 +16,7 @@ async def test_get_hotels_by_location(location, date_from, date_to, count_hotels
 
     response = await ac.get(
         f'hotels/{location}?date_from={date_from}&date_to={date_to}')
+    print(response)
 
     # проверяем количество найденных отелей по локации
     assert response.status_code == status_code
