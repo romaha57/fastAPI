@@ -19,7 +19,7 @@
 
 
 ## Структрура БД
-![DB](app/static/images/db-structure.png)
+![DB](app/static/images/db-structure.png)  
 
 Примечание(для себя):
 - в качестве гет параметров можно использовать класс как аргумент эндпоинта
