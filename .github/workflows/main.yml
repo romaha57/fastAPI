@@ -45,4 +45,8 @@ jobs:
           DATABASE_PORT: ${{ matrix.database-port }}
           POSTGRES_DB: ${{ matrix.database-name }}
         run: pytest -v -s
-
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check code by flake8
+        run: flake8 .
