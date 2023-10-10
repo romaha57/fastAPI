@@ -73,7 +73,7 @@ async def test_create_user(email, password, ac: AsyncClient):
 
 @pytest.mark.parametrize(
     'user_id',
-    [3, 4]
+    [4, 5]
 )
 async def test_delete_user(user_id, ac: AsyncClient):
     """Проверка удаление пользователя из БД"""
