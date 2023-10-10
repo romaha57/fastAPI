@@ -84,7 +84,7 @@ starlette==0.27.0
 tornado==6.3.3
 typing_extensions==4.8.0
 tzdata==2023.3
-urllib3==2.0.6
+urllib3==1.26.17
 uvicorn==0.23.2
 vine==5.0.0
 wcwidth==0.2.7
