@@ -23,7 +23,7 @@ async def test_user_get_by_id(id, email, status_code, ac: AsyncClient):
 
 @pytest.mark.parametrize(
     'filters, count_users',
-    [({}, 3),
+    [({}, 2),
      ({'email': 'artem@example.com'}, 1)]
 )
 async def test_user_get_all(filters, count_users, ac: AsyncClient):

@@ -29,7 +29,7 @@ async def create_booking(
     date_to: date,
     user: User = Depends(get_current_user),
 ):
-    if check_date(date_from, date_to):
+    if not check_date(date_from, date_to):
         raise InvalidDateException()
 
     new_booking = await BookingService.create(
@@ -59,7 +59,7 @@ async def update_booking(
     date_to: date,
     user: User = Depends(get_current_user),
 ):
-    if check_date(date_from, date_to):
+    if not check_date(date_from, date_to):
         raise InvalidDateException()
 
     rooms_left = await BookingService.update(

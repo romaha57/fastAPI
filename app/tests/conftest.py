@@ -69,7 +69,7 @@ def event_loop(request):
 async def ac():
     """Создание тестового клиента для запросов к endpoints (ac=async_client)"""
 
-    async with AsyncClient(app=fastapi_app, base_url='http://test') as ac:
+    async with AsyncClient(app=fastapi_app, base_url='http://127.0.0.1:8000/v1/') as ac:
         yield ac
 
 
@@ -85,7 +85,7 @@ async def session():
 async def auth_user():
     """Создание аутентифицированного пользователя для работы с endpoints"""
 
-    async with AsyncClient(app=fastapi_app, base_url='http://test') as au:
+    async with AsyncClient(app=fastapi_app, base_url='http://127.0.0.1:8000/v1/') as au:
         response = await au.post('users/login', json={
             'email': 'test@test.com',
             'password': 'test'

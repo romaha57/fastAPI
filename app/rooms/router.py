@@ -21,7 +21,7 @@ async def get_rooms(
         date_from: date,
         date_to: date
 ):
-    if check_date(date_from, date_to):
+    if not check_date(date_from, date_to):
         raise InvalidDateException()
 
     return await RoomService.get_all(

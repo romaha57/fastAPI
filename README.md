@@ -17,6 +17,7 @@
 - `git clone https://github.com/romaha57/fastAPI.git`
 - `docker-compose up`
 
+
 ## Структрура БД
 ![DB](app/static/images/db-structure.png)
 

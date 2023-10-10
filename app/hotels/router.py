@@ -23,7 +23,7 @@ async def get_hotels_by_location(
         date_from: date,
         date_to: date
 ):
-    if check_date(date_from, date_to):
+    if not check_date(date_from, date_to):
         raise InvalidDateException()
 
     return await HotelService.find_all(
@@ -40,7 +40,7 @@ async def get_hotels_by_hotel_name(
         date_from: date,
         date_to: date
 ):
-    if check_date(date_from, date_to):
+    if not check_date(date_from, date_to):
         raise InvalidDateException()
 
     return await HotelService.find_all(
