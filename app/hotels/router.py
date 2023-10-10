@@ -1,5 +1,4 @@
-import datetime
-from datetime import date, datetime
+from datetime import date
 
 from fastapi import APIRouter, UploadFile
 from fastapi_cache.decorator import cache

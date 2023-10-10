@@ -50,4 +50,3 @@ async def load_rooms_json(
             )
 
         return {'msg': 'rooms was added'}
-
