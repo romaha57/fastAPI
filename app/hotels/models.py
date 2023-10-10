@@ -5,6 +5,8 @@ from app.database import Base
 
 
 class Hotel(Base):
+    """Модель отеля"""
+
     __tablename__ = 'hotels'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

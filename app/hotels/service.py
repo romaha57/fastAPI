@@ -1,6 +1,7 @@
 from datetime import date
 
 from sqlalchemy import and_, func, or_, select
+from sqlalchemy.ext.asyncio import AsyncMappingResult
 
 from app.bookings.models import Booking
 from app.database import async_session
@@ -18,7 +19,7 @@ class HotelService(BaseService):
                        date_to: date,
                        location: str = None,
                        hotel_name: str = None
-                       ):
+                       ) -> AsyncMappingResult:
 
         # создаем запрос на поиск по названию или локации
         if location:

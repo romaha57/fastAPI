@@ -11,25 +11,31 @@ class AdminAuth(AuthenticationBackend):
     """Аутентификация в админке"""
 
     async def login(self, request: Request) -> bool:
+        """Логинимся в админке при наличии такого пользователя в БД и создаем токен"""
+
         form = await request.form()
-        email, password = form["username"], form["password"]
+        email, password = form['username'], form['password']
 
         # проверяем существует ли такой пользователь в БД и правильный ли пароль ввел
         user = await UserService.get_object_or_none(email=email)
         if user and verify_password(password, user.password):
             access_token = create_access_token({'sub': str(user.id)})
 
-            request.session.update({"token": access_token})
+            request.session.update({'token': access_token})
 
             return True
 
     async def logout(self, request: Request) -> bool:
+        """Выход из системы"""
+
         request.session.clear()
 
         return True
 
     async def authenticate(self, request: Request) -> bool:
-        token = request.session.get("token")
+        """Проверка токена и предоставление доступа к админке"""
+
+        token = request.session.get('token')
         if not token:
             return False
 

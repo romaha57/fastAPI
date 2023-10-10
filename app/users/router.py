@@ -11,6 +11,7 @@ from app.users.models import User
 from app.users.schemas import LoginUserSchema, RegisterUserSchema
 from app.users.service import UserService
 
+
 router = APIRouter(
     prefix='/users',
     tags=['Пользователи']
@@ -21,11 +22,13 @@ router = APIRouter(
 async def register_user(
         user_data: RegisterUserSchema
 ):
+    # проверяем пользователя по email в БД
     if await UserService.get_object_or_none(email=user_data.email):
         raise UserAlreadyExistException()
 
     if not user_data.password or not user_data.email:
         raise UserPasswordIsEmpty()
+
     hashed_password = hash_password(user_data.password)
     await UserService.create_object(
         email=user_data.email,

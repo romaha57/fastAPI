@@ -1,6 +1,7 @@
 from datetime import date
 
 from sqlalchemy import and_, func, insert, or_, select, update
+from sqlalchemy.ext.asyncio import AsyncMappingResult
 
 from app.bookings.models import Booking
 from app.database import async_session
@@ -62,7 +63,7 @@ class BookingService(BaseService):
                      date_from: date,
                      date_to: date,
                      user_id: int
-                     ):
+                     ) -> Booking:
         """Создание брони с учетом свободных номеров на эти даты"""
 
         rooms_left = await cls._check_room_left(
@@ -94,7 +95,7 @@ class BookingService(BaseService):
                      booking_id: int,
                      date_from: date,
                      date_to: date
-                     ):
+                     ) -> int:
         """Изменение данных по брони"""
 
         rooms_left = await cls._check_room_left(
@@ -116,7 +117,7 @@ class BookingService(BaseService):
         return rooms_left
 
     @classmethod
-    async def get_all(cls, user_id: int):
+    async def get_all(cls, user_id: int) -> AsyncMappingResult:
         """Получение всех броней пользователя по user_id"""
 
         async with async_session() as session:
@@ -135,4 +136,5 @@ class BookingService(BaseService):
             )
 
             bookings = await session.execute(query)
+
             return bookings.mappings().all()

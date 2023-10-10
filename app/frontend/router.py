@@ -6,6 +6,7 @@ from app.frontend.naming import TITLE_HOTELS_PAGE, TITLE_INDEX_PAGE
 from app.hotels.router import get_hotels_by_location
 from app.hotels.schemas import HotelSchema
 
+
 router = APIRouter(
     prefix='/site',
     tags=['Фронтенд']

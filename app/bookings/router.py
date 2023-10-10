@@ -1,17 +1,17 @@
 from datetime import date, datetime
 
 from fastapi import APIRouter, Depends
-from fastapi_versioning import version
 
 from app.bookings.schemas import BookingsByUserSchema, CreateBookingSchema
 from app.bookings.service import BookingService
 from app.exceptions import InvalidDateException, NoAvailableRoomsException
 from app.users.dependecies import get_current_user
 from app.users.models import User
+from app.utils.check_date import check_date
 
 router = APIRouter(
-    prefix="/booking",
-    tags=["Бронирование"],
+    prefix='/booking',
+    tags=['Бронирование'],
 )
 
 
@@ -29,7 +29,7 @@ async def create_booking(
     date_to: date,
     user: User = Depends(get_current_user),
 ):
-    if date_to <= date_from or date_from < datetime.utcnow().date():
+    if check_date(date_from, date_to):
         raise InvalidDateException()
 
     new_booking = await BookingService.create(
@@ -59,7 +59,7 @@ async def update_booking(
     date_to: date,
     user: User = Depends(get_current_user),
 ):
-    if date_to <= date_from or date_from < datetime.utcnow().date():
+    if check_date(date_from, date_to):
         raise InvalidDateException()
 
     rooms_left = await BookingService.update(
@@ -80,4 +80,5 @@ async def delete_booking(
     user: User = Depends(get_current_user),
 ):
     await BookingService.delete(id=booking_id)
+
     return {"msg": f"delete booking_id = {booking_id}"}

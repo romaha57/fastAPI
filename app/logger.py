@@ -1,5 +1,5 @@
-from datetime import datetime
 import logging
+from datetime import datetime
 
 from pythonjsonlogger import jsonlogger
 
@@ -10,6 +10,8 @@ log_handler = logging.StreamHandler()
 
 
 class CustomJsonFormatter(jsonlogger.JsonFormatter):
+    """Кастомный форматтер для отображения логов в json"""
+
     def add_fields(self, log_record, record, message_dict):
         super(CustomJsonFormatter, self).add_fields(log_record, record, message_dict)
         if not log_record.get('timestamp'):

@@ -49,15 +49,6 @@ class BaseService:
             await session.execute(query)
             await session.commit()
 
-    # @classmethod
-    # async def update(cls, id: int, **data):
-    #     """Изменение объекта в БД"""
-    #
-    #     async with async_session() as session:
-    #         query = update(cls.model).filter_by(id=id).values(**data)
-    #         await session.execute(query)
-    #         await session.commit()
-
     @classmethod
     async def delete(cls, id: int):
         """Удаление объекта по его id"""

@@ -1,6 +1,4 @@
-import asyncio
 import datetime
-import shutil
 from datetime import date, datetime
 
 from fastapi import APIRouter, UploadFile
@@ -9,7 +7,9 @@ from fastapi_cache.decorator import cache
 from app.exceptions import HotelDoesNotExist, InvalidDateException
 from app.hotels.schemas import HotelSchema
 from app.hotels.service import HotelService
+from app.utils.check_date import check_date
 from app.utils.utils_files import check_json_format, load_data
+
 
 router = APIRouter(
     prefix='/hotels',
@@ -24,7 +24,7 @@ async def get_hotels_by_location(
         date_from: date,
         date_to: date
 ):
-    if date_to <= date_from or date_to < datetime.utcnow().date():
+    if check_date(date_from, date_to):
         raise InvalidDateException()
 
     return await HotelService.find_all(
@@ -41,7 +41,7 @@ async def get_hotels_by_hotel_name(
         date_from: date,
         date_to: date
 ):
-    if date_to <= date_from or date_from < datetime.utcnow().date():
+    if check_date(date_from, date_to):
         raise InvalidDateException()
 
     return await HotelService.find_all(
@@ -68,6 +68,7 @@ async def load_hotels_json(
 ):
     if check_json_format(file):
         hotel_data = load_data(file)
+
         for hotel in hotel_data:
             await HotelService.create_object(
                 name=hotel.get('name'),
@@ -78,4 +79,4 @@ async def load_hotels_json(
                 image_id=hotel.get('image_id')
             )
 
-
+        return {'msg': 'hotels was added'}

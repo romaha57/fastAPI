@@ -5,6 +5,8 @@ from app.database import Base
 
 
 class Booking(Base):
+    """Модель бронирования"""
+
     __tablename__ = 'bookings'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -13,6 +15,8 @@ class Booking(Base):
     date_from = Column(Date)
     date_to = Column(Date)
     price = Column(Integer)
+
+    # вычисляемые поля в БД
     total_days = Column(Integer, Computed('date_to - date_from'))
     total_cost = Column(Integer, Computed('(date_to - date_from) * price'))
 

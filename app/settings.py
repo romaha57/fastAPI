@@ -35,6 +35,9 @@ class Settings(BaseSettings):
 
     SENTRY_KEY: str
 
+    ELASTICSEARCH_URL: str
+    ELASTICSEARCH_INDEX_NAME: str
+
     class Config:
         env_file = '.env'
 
