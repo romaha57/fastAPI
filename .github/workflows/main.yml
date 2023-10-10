@@ -49,4 +49,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run flake8
-        run: python3 -m flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        uses: grantmcconnaughey/lintly-flake8-github-action@v1.0
+        with:
+          # The GitHub API token to create reviews with
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Fail if "new" violations detected or "any", default "new"
+          failIf: new
+          # Additional arguments to pass to flake8, default "." (current directory)
+          args: "--ignore=E121,E123 ."
