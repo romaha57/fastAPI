@@ -10,5 +10,7 @@ jobs:
         run: python3 -m pip install --upgrade pip setuptools wheel
       - name: install requirements
         run: python3 -m pip install -r requirements.txt
+      - name: set enviroment variable on test
+        run: export MODE='test'
       - name: run test
         run: pytest -v -s
