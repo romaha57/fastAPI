@@ -48,6 +48,10 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      - name: get source code
+        uses: actions/checkout@v4
+      - name: upgrade pip
+        run: python3 -m pip install --upgrade pip setuptools wheel
       - name: flake8 Lint
         uses: py-actions/flake8@v2
         with:
