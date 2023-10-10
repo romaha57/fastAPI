@@ -50,7 +50,3 @@ jobs:
     steps:
       - name: Run flake8
         uses: suo/flake8-github-action@releases/v1
-        with:
-          checkName: 'lint'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
