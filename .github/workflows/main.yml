@@ -49,4 +49,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: check code by flake8
-        run: python3 -m flake8 .
+        uses: py-actions/flake8@v2
