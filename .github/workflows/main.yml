@@ -1,8 +1,13 @@
-name: Test actions
-on: workflow_dispatch
+name: Run Test
+on: [push]
 jobs:
-  print:
-    runs-on: ubuntu-latest
-    steps:
-      - name: test print
-        run: echo Hello ci/cd
+  runs-on: ubuntu-latest
+  steps:
+    - name: get source code
+      uses: actions/checkout@v4
+    - name: upgrade pip
+      run: python3 -m pip install --upgrade pip setuptools wheel
+    - name: install requirements
+      run: python3 -m pip install -r requirements
+    - name: run test
+      run: pytest -v -s
