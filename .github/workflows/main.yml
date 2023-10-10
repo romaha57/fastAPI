@@ -48,5 +48,9 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: check code by flake8
-        uses: py-actions/flake8@v2
+      - name: Run flake8
+        uses: suo/flake8-github-action@releases/v1
+        with:
+          checkName: 'lint'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
