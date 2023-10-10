@@ -49,11 +49,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run flake8
-        uses: grantmcconnaughey/lintly-flake8-github-action@v1.0
+        uses: tonybajan/flake8-check-action@v1.3.0
         with:
-          # The GitHub API token to create reviews with
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # Fail if "new" violations detected or "any", default "new"
-          failIf: new
-          # Additional arguments to pass to flake8, default "." (current directory)
-          args: "--ignore=E121,E123 ."
+          select: E3,E4,E5,E7,W6,F,B,G0
+          maxlinelength: 100
+          repotoken: ${{ secrets.GITHUB_TOKEN }}
