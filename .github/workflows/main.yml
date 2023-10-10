@@ -9,6 +9,6 @@ jobs:
       - name: upgrade pip
         run: python3 -m pip install --upgrade pip setuptools wheel
       - name: install requirements
-        run: python3 -m pip install -r requirements
+        run: python3 -m pip install -r requirements.txt
       - name: run test
         run: pytest -v -s
