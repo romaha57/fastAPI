@@ -52,4 +52,3 @@ jobs:
         uses: py-actions/flake8@v2
         with:
           max-line-length: "100"
-          path: "app"
