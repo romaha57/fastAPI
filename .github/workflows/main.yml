@@ -1,0 +1,8 @@
+name: Test actions
+on: workflow_dispatch
+jobs:
+  print:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test print
+        run: echo Hello ci/cd
