@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     ELASTICSEARCH_INDEX_NAME: str
 
     class Config:
-        env_file = '.env'
+        env_file = '.env-prod'
 
 
 settings = Settings()
