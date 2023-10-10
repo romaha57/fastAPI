@@ -11,6 +11,6 @@ jobs:
       - name: install requirements
         run: python3 -m pip install -r requirements.txt
       - name: set enviroment variable on test
-        run: export MODE='test'
+        run: export MODE='TEST'
       - name: run test
         run: pytest -v -s
