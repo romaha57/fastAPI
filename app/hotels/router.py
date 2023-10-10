@@ -17,7 +17,7 @@ router = APIRouter(
 
 
 @router.get('/{location}', response_model=list[HotelSchema])
-@cache(expire=30)
+# @cache(expire=30)
 async def get_hotels_by_location(
         location: str,
         date_from: date,
@@ -34,7 +34,7 @@ async def get_hotels_by_location(
 
 
 @router.get('/search/{hotel_name}', response_model=list[HotelSchema])
-@cache(expire=30)
+# @cache(expire=30)
 async def get_hotels_by_hotel_name(
         hotel_name: str,
         date_from: date,

@@ -36,7 +36,7 @@ jobs:
         run: python3 -m pip install --upgrade pip setuptools wheel
       - name: install requirements
         run: python3 -m pip install -r requirements.txt
-      - name: set environment variable on test
+      - name: run test
         env:
           DATABASE_NAME_TEST: ${{ matrix.database-name }}
           DATABASE_USER: ${{ matrix.database-user }}
