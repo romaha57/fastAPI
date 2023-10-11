@@ -47,7 +47,7 @@ jobs:
             ${{ runner.os }}-venv-
       - run: python -m venv ./.venv && . ./.venv/bin/activate
         if: steps.cache-venv.outputs.cache-hit != 'true'
-            - run: . ./.venv/bin/activate
+      - run: . ./.venv/bin/activate
       - name: upgrade pip
         run: python3 -m pip install --upgrade pip setuptools wheel
       - name: install requirements

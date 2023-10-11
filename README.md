@@ -18,7 +18,7 @@
 
 ## Установка:
 - `git clone https://github.com/romaha57/fastAPI.git`
-- `docker-compose up` 
+- `docker-compose up`
 
 
 ## Структрура БД
