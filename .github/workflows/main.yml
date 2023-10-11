@@ -87,4 +87,4 @@ jobs:
         uses: py-actions/flake8@v2
         with:
           max-line-length: '100'
-          exclude: '.git,__pycache__, .pytest_cache,venv,migrations'
+          exclude: '.git,__pycache__,.pytest_cache,venv,migrations'
