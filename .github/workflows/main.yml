@@ -37,6 +37,17 @@ jobs:
     steps:
       - name: get source code
         uses: actions/checkout@v4
+      - name: Cache and create venv
+        uses: actions/cache@v2
+        id: cache-venv
+        with:
+          path: ./.venv/
+          key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-venv-
+      - run: python -m venv ./.venv && . ./.venv/bin/activate
+        if: steps.cache-venv.outputs.cache-hit != 'true'
+            - run: . ./.venv/bin/activate
       - name: upgrade pip
         run: python3 -m pip install --upgrade pip setuptools wheel
       - name: install requirements
