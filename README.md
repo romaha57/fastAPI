@@ -11,14 +11,14 @@
 - Админка
 - Сборка метрик с помощью prometheus и визуализация их в Grafana
 - Flower для визуализации отложенных задач
-- Настроено CI/CD, а точнее GitHub Actions на запуск тестов при push в репозиторий
+- Настроено CI/CD, а точнее GitHub Actions на запуск тестов, линтера flake8 при push в репозиторий(используется кэш)
 - Sentry для просмотра ошибок
 - Миграции с помощью alemibic
 - И многое по мелочи ...
 
 ## Установка:
 - `git clone https://github.com/romaha57/fastAPI.git`
-- `docker-compose up`  
+- `docker-compose up`
 
 
 ## Структрура БД

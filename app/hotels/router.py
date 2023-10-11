@@ -1,7 +1,7 @@
 from datetime import date
 
 from fastapi import APIRouter, UploadFile
-
+from fastapi_cache.decorator import cache
 
 from app.exceptions import HotelDoesNotExist, InvalidDateException
 from app.hotels.schemas import HotelSchema
