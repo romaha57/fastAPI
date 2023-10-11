@@ -15,7 +15,10 @@ class ESElasticSearch:
 
         cls.es_client.indices.create(
             index=settings.ELASTICSEARCH_INDEX_NAME,
-            mappings=MAPPINGS
+            body={
+                'mappings': MAPPINGS
+            },
+            ignore=400
         )
 
     @classmethod
@@ -24,8 +27,10 @@ class ESElasticSearch:
 
         result = cls.es_client.search(
             index=settings.ELASTICSEARCH_INDEX_NAME,
-            query={
-                "match_all": {}
+            body={
+                "query": {
+                    "match_all": {}
+                }
             },
             size=100
         )
@@ -37,7 +42,7 @@ class ESElasticSearch:
 
         news = cls.es_client.index(
             index=settings.ELASTICSEARCH_INDEX_NAME,
-            document=news_data
+            body=news_data
         )
 
         return news
@@ -46,9 +51,11 @@ class ESElasticSearch:
     def get_news_by_title(cls, news_title: str):
         news = cls.es_client.search(
             index=settings.ELASTICSEARCH_INDEX_NAME,
-            query={
-                "match": {
-                    "title": news_title
+            body={
+                'query': {
+                    'match': {
+                        'title': news_title
+                    }
                 }
             }
         )
